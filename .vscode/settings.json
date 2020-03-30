@@ -1,0 +1,12 @@
+{
+    "git.ignoreLimitWarning": true,
+    "files.associations": {
+        "timer.h": "c",
+        "ls1b_public.h": "c",
+        "config.h": "c",
+        "system_init.h": "c",
+        "cpld.h": "c",
+        "candrv.h": "c",
+        "ls1b_delay.h": "c"
+    }
+}
