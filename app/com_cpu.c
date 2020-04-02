@@ -147,7 +147,6 @@ void hcm_process(void)
             }
             AO_FLAG &= ~(1<<i);
         }
-        /**************************************************************************/
         u16state = CPLD_Read(i*4);//读HST_Ctrl
         if(u16state&(1<<6))//启停状态位
         {
@@ -160,7 +159,6 @@ void hcm_process(void)
         
         if(config0[i].Bits.mode>HCM_MODE_0)// 
         {
-            /**************************************************************************/
             hcm_data[i].hcm_hst_value=CPLD_Read(i*4+2);//读取HST_Value
             hcm_data[i].hcm_hst_c_value=CPLD_Read(i*4+3);//读取HST_C_Value
 
@@ -172,7 +170,6 @@ void hcm_process(void)
                     status0[i].Bits.event_chan =1;	//置事件位
                 }
             }
-
             if(u16state&(1<<9)) //I_AUX
             {
                 status0[i].Bits.i_aux=1; 
@@ -180,10 +177,8 @@ void hcm_process(void)
             else
             {
                 status0[i].Bits.i_aux=0;
-            }
-            
-        }
-        
+            }  
+        }  
         if(config0[i].Bits.cp_en==1) //比较使能后增加比较状态位
         {
             if(config0[i].Bits.mode<=HCM_MODE_3)//1,2,3,4模式无符号数比较

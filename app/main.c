@@ -44,21 +44,8 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 	System_Info_Print();
 	System_Init();
 
-
 	while (1)
 	{
-/*
-		if(SYS_TIMER5_MARK==0xFF) 
-		{
-			SYS_TIMER5_MARK=0;
-			SYS_TIMER5=SYS_TIMER5_INIT;
-			//myprintf("Word = %d\n",status0[0].Word);
-			//myprintf("hcm_hst_value = %d\n",hcm_data[3].hcm_hst_value);
-			//myprintf("hcm_hst_c_value = %d\n",hcm_data[3].hcm_hst_c_value);
-			//myprintf("Value = %x\n",CPLD_Read(0*4+2));
-		}
-*/
-
 		//下发cpu传来的配置
 		if(cpld_write_flag==1)
 		{
