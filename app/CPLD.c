@@ -37,13 +37,13 @@ void CPLD_Init(void)
     pin_set_purpose(SPI0_MOSI_Pin,PIN_PURPOSE_OTHER);//mosi
     pin_set_purpose(SPI0_CS_Pin,PIN_PURPOSE_OTHER);//cs
 
-    pin_set_purpose(MISO_Flag_Pin,PIN_PURPOSE_GPIO);//sdo_flag
-    gpio_set(MISO_Flag_Pin, gpio_level_high);
+    //pin_set_purpose(MISO_Flag_Pin,PIN_PURPOSE_GPIO);//sdo_flag
+    //gpio_set(MISO_Flag_Pin, gpio_level_high);
 
     //SPI0 Initialize
     spi0_info.SPIx			= LS1B_SPI_0;
     spi0_info.cs			= LS1B_SPI_CS_2;
-    spi0_info.max_speed_hz	= 62500;
+    spi0_info.max_speed_hz	= 125000;
     spi0_info.cpol			= SPI_CPOL_1;
     spi0_info.cpha			= SPI_CPHA_1;
 
@@ -62,14 +62,14 @@ void CPLD_Init(void)
 void CPLD_Write(unsigned char addr,unsigned int data)
 { 
     SPI0_CS_L;
-    //delay_us(5);
+    //delay_us(20);
     addr &= ~(1<<7);
     spi_txrx_byte(&spi0_info,addr);
     spi_txrx_byte(&spi0_info,(unsigned char)(data>>24));
     spi_txrx_byte(&spi0_info,(unsigned char)(data>>16));
     spi_txrx_byte(&spi0_info,(unsigned char)(data>>8));
     spi_txrx_byte(&spi0_info,(unsigned char)(data>>0));
-    //delay_us(5);
+    //delay_us(20);
     SPI0_CS_H;
 }
 /*************************************************************************************
@@ -84,14 +84,14 @@ unsigned int CPLD_Read(unsigned char addr)
 {
     unsigned int ret = 0;
     SPI0_CS_L;
-    //delay_us(5);
+    //delay_us(20);
     addr |= (1<<7);
     spi_txrx_byte(&spi0_info,addr);
     ret = spi_txrx_byte(&spi0_info,0xFF);
     ret = (ret<<8) | (spi_txrx_byte(&spi0_info,0xFF));
     ret = (ret<<8) | (spi_txrx_byte(&spi0_info,0xFF));
     ret = (ret<<8) | (spi_txrx_byte(&spi0_info,0xFF));
-    //delay_us(5);
+    //delay_us(20);
     SPI0_CS_H;
     return ret;
 }

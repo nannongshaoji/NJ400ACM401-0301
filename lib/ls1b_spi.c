@@ -225,16 +225,17 @@ void spi_set_cs(ls1b_spi_info_t *spi_info_p, int new_status)
     unsigned char val = 0;
 
     val = reg_read_8(spi_base + LS1B_SPI_SFC_SOFTCS_OFFSET);
-    
-    if (new_status)         		// cs = 1
+
+    if (new_status)         		// cs = 1 拉高释放总线
     {
-        val |= (0x01 << cs);          	// 指定的csen=1
+        val |= (0x01 << cs);        // 指定的csen=1
         val |= (0x10 << cs);        // 指定csn=1
     }
-    else                    		// cs = 0
+    else                    		// cs = 0 
     {
         val &= ~(0x10 << cs);       // 指定csn=0
-        val |= 0x0f;
+        val &= 0xF0;                // 关闭其他使能
+        val |= (0x01 << cs);        // 指定csen=1
     }
     reg_write_8(val, spi_base + LS1B_SPI_SFC_SOFTCS_OFFSET);
 

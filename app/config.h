@@ -73,9 +73,9 @@ typedef unsigned int   uint32;                  /* 无符号32位整型变量   
 #define SYS_TIMER2_INIT     47			
 #define SYS_TIMER3_INIT     5987		
 #define SYS_TIMER4_INIT     5			
-#define SYS_TIMER5_INIT     50			
+#define SYS_TIMER5_INIT     50		
 #define SYS_TIMER6_INIT     50			
-#define SYS_TIMER7_INIT     20			
+#define SYS_TIMER7_INIT     30			
 #define SYS_TIMER8_INIT     100			
 #define SYS_TIMER9_INIT     200			
 #define SYS_TIMER10_INIT    1000		

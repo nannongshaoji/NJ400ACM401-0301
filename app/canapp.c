@@ -74,6 +74,7 @@ void PROCESS_MSG(void)
 					memcpy(&hcm_data[I].hcm_s_value0,&APP_R[CAN_OUT_PTR].MYDATA[5+I*12],4);
 					memcpy(&hcm_data[I].hcm_s_value1,&APP_R[CAN_OUT_PTR].MYDATA[9+I*12],4);
 					memcpy(&hcm_data[I].hcm_s_value2,&APP_R[CAN_OUT_PTR].MYDATA[13+I*12],2);
+
 				}
 				MODULE_STATE|=0x80;//模块参数已加载
 				MODULE_STATE&=0xFB;//模块类型匹配

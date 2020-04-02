@@ -9,9 +9,9 @@
 #include "com_cpu.h"
 #include "CPLD.h"
 
-s_config0 config0[HCM_CH_NUM] = {{0},{0}};
-s_hcm_data hcm_data[HCM_CH_NUM] = {{0},{0},{0},{0},{0}};
-s_status0 status0[HCM_CH_NUM] = {{0},{0}};
+s_config0 config0[HCM_CH_NUM] = {{0},{0},{0},{0},{0},{0},{0},{0}};
+s_hcm_data hcm_data[HCM_CH_NUM] = {{0},{0},{0},{0},{0},{0},{0},{0}};
+s_status0 status0[HCM_CH_NUM] = {{0},{0},{0},{0},{0},{0},{0},{0}};
 
 uint8 aoset_state_byte[HCM_CH_NUM] = {0};
 uint32 measure_10hz_data[HCM_CH_NUM][MAX_NUM_HZ] = {{0},{0},{0},{0},{0},{0},{0},{0}};
@@ -28,7 +28,7 @@ uint8 process_mode0_data_flag[HCM_CH_NUM] = {0};
 *************************************************************************************/
 void process_mode0_data(uint8 channo,uint8 step,uint8 indexnow)
 {
-  uint32 data;
+    uint32 data;
 //	if(processflag==1)
 	if(indexnow>=step)
 	{
@@ -38,7 +38,7 @@ void process_mode0_data(uint8 channo,uint8 step,uint8 indexnow)
 	{
 		data= (measure_10hz_data[channo][indexnow]-measure_10hz_data[channo][MAX_NUM_HZ-step+indexnow]);	
 	}
-	hcm_data[channo].hcm_hst_value=data*1000/step;//放大10倍，精确到0.1HZ
+	hcm_data[channo].hcm_hst_value=data*1000/step;//放大10倍，精确到0.1HZ，step次求平均
 //	if(hcm_data[channo].hcm_hst_value<9600)
 //	{
 //			hcm_data[channo].hcm_hst_value=hcm_data[channo].hcm_hst_value;
@@ -68,9 +68,10 @@ void hcm_read_mode0_data(void)
                 //measure_10hz_index[i]++;
                 //if(measure_10hz_index[i]>=MAX_NUM_HZ)
                 //measure_10hz_index[i]=0;
+                if(hcm_data[i].hcm_s_value0 < 10)	hcm_data[i].hcm_s_value0 = 10;//避免NAPro配置了，但未输入参数
 
-                if(hcm_data[i].hcm_s_value0<=2000) //控制最大200个数，即2秒钟作差计算频率
-                    timestep=hcm_data[i].hcm_s_value0/10;
+                if(hcm_data[i].hcm_s_value0<=2000)//控制最大200个数，即2秒钟作差计算频率
+                    timestep=hcm_data[i].hcm_s_value0/10;//设置采集次数
                 else
                     timestep=200;
                 
@@ -81,8 +82,8 @@ void hcm_read_mode0_data(void)
                 {
                     if(measure_10hz_index[i]==0)
                         process_mode0_data(i,timestep,MAX_NUM_HZ-1);
-                    else						
-                        process_mode0_data(i,timestep,measure_10hz_index[i]-1);
+                    else
+                        process_mode0_data(i,timestep,measure_10hz_index[i]-1);					                       
                 }
             }
         }
@@ -116,7 +117,7 @@ void hcm_process(void)
         
         if(AO_FLAG&(1<<i))
         {
-            if(aoset_state_byte[i]&STATE_RESET)
+            if(aoset_state_byte[i]&STATE_RESET)//0x01 复位
             {
                 CPLD_Write(4*i,HST_Rst|(config0[i].Bits.mode-1));
                 hcm_data[i].hcm_hst_value=0;
@@ -124,7 +125,7 @@ void hcm_process(void)
                 //status0[i].Bits.start_stop_bit=0;
                 aoset_state_byte[i] &= ~STATE_RESET;
             }
-            if(aoset_state_byte[i]&STATE_START)
+            if(aoset_state_byte[i]&STATE_START)//0x02 启动
             {
                 if(config0[i].Bits.mode==8)
                 CPLD_Write(4*i,HST_EN|HST_Start|(config0[i].Bits.x1_x4_bit<<4)|(config0[i].Bits.mode-1));
@@ -133,22 +134,22 @@ void hcm_process(void)
                 aoset_state_byte[i] &= ~STATE_START;	
                 //status0[i].Bits.start_stop_bit=1;
             }
-            if(aoset_state_byte[i]&STATE_STOP)
+            if(aoset_state_byte[i]&STATE_STOP)//0x04 停止
             {
                 CPLD_Write(4*i,HST_EN|HST_Stop|(config0[i].Bits.mode-1));
                 aoset_state_byte[i] &= ~STATE_STOP;
                 //status0[i].Bits.start_stop_bit=0;
             }
-            if(aoset_state_byte[i]&STATE_SET_S_VALUE)
+            if(aoset_state_byte[i]&STATE_SET_S_VALUE)//0x08 设值
             {
                 CPLD_Write(4*i+1,hcm_data[i].hcm_s_value0);
                 aoset_state_byte[i] &= ~STATE_SET_S_VALUE;
             }
             AO_FLAG &= ~(1<<i);
         }
-        
+        /**************************************************************************/
         u16state = CPLD_Read(i*4);//读HST_Ctrl
-        if(u16state&(1<<6))		//启停状态位
+        if(u16state&(1<<6))//启停状态位
         {
             status0[i].Bits.start_stop_bit=1;
         }
@@ -159,15 +160,16 @@ void hcm_process(void)
         
         if(config0[i].Bits.mode>HCM_MODE_0)// 
         {
+            /**************************************************************************/
             hcm_data[i].hcm_hst_value=CPLD_Read(i*4+2);//读取HST_Value
             hcm_data[i].hcm_hst_c_value=CPLD_Read(i*4+3);//读取HST_C_Value
-            
-            if(config0[i].Bits.int_en==1) //中断使能后
+
+            if(config0[i].Bits.int_en==1)//中断使能后
             {	
                 if(u16state&(1<<8)) //Int_flag
                 {
                     CPLD_Write(4*i,u16state|0x100); //清Int_flag
-                    status0[i].Bits.event_chan =1;			//置事件位
+                    status0[i].Bits.event_chan =1;	//置事件位
                 }
             }
 

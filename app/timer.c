@@ -15,18 +15,18 @@
 timer_info_t timer_info={0};
 stcMODULE_CLK  MODULE_CLK;
 
-uint8	TIMER_10MS_MARK;
+uint16	TIMER_10MS_MARK;
 uint16  MS10_CNT;
-uint8	SYS_TIMER1;					//DECLARE SYS_TIMER1			BYTE    SLOW;
-uint8	SYS_TIMER2;					//DECLARE SYS_TIMER2			BYTE    SLOW;
+uint16	SYS_TIMER1;					//DECLARE SYS_TIMER1			BYTE    SLOW;
+uint16	SYS_TIMER2;					//DECLARE SYS_TIMER2			BYTE    SLOW;
 uint16	SYS_TIMER3;					//DECLARE SYS_TIMER3			BYTE    SLOW;
-uint8	SYS_TIMER4;					//DECLARE SYS_TIMER4			BYTE    SLOW;
-uint8	SYS_TIMER5;					//DECLARE SYS_TIMER5			BYTE    SLOW;
-uint8	SYS_TIMER6;					//DECLARE SYS_TIMER6			BYTE    SLOW;
-uint8	SYS_TIMER7;					//DECLARE SYS_TIMER7			BYTE    SLOW;
-uint8	SYS_TIMER8;					//DECLARE SYS_TIMER8			BYTE    SLOW;
+uint16	SYS_TIMER4;					//DECLARE SYS_TIMER4			BYTE    SLOW;
+uint16	SYS_TIMER5;					//DECLARE SYS_TIMER5			BYTE    SLOW;
+uint16	SYS_TIMER6;					//DECLARE SYS_TIMER6			BYTE    SLOW;
+uint16	SYS_TIMER7;					//DECLARE SYS_TIMER7			BYTE    SLOW;
+uint16	SYS_TIMER8;					//DECLARE SYS_TIMER8			BYTE    SLOW;
 uint16	SYS_TIMER9;					//DECLARE SYS_TIMER9			BYTE    SLOW    PUBLIC;
-uint16   SYS_TIMER10;				//DECLARE SYS_TIMER10			BYTE    SLOW    PUBLIC;
+uint16  SYS_TIMER10;				//DECLARE SYS_TIMER10			BYTE    SLOW    PUBLIC;
 
 uint8	SYS_TIMER1_MARK;			//DECLARE SYS_TIMER1_MARK		BYTE    SLOW;
 uint8	SYS_TIMER2_MARK;			//DECLARE SYS_TIMER2_MARK		BYTE    SLOW;
@@ -94,7 +94,7 @@ void IRQ_Time_1(void)
 	 		continue;
 	 	if(status0[i].Bits.start_stop_bit==1)
 	 	{	
-	 		if(config0[i].Bits.mode==HCM_MODE_0)//测频模式
+	 		if(config0[i].Bits.mode==HCM_MODE_0)//测频模式,每10ms存储一次数据
 	 		{
 	 			measure_10hz_data[i][measure_10hz_index[i]]=CPLD_Read(i*4+2);
 	 			measure_10hz_index[i]++;
@@ -103,6 +103,18 @@ void IRQ_Time_1(void)
 	 		}
 	 	}
     }
+
+/*	//定时HCM处理
+	if(SYS_TIMER7_MARK==0xFF ) 
+	{
+		FAULT_LED_OFF;
+		SYS_TIMER7_MARK=0;
+		SYS_TIMER7=SYS_TIMER7_INIT;
+		if(( S_BITTST(&MODULE_STATE,7)==0xFF))
+			hcm_process();
+		FAULT_LED_ON;
+	}
+*/
 }
 /*************************************************************************************
 *Function name	:CLK_SOFT_INIT

@@ -17,7 +17,6 @@
 #include "config.h"
 #include "CPLD.h"
 
-
 uint8 MODULE_POINTNUM=8;
 uint8 MODULE_STATE;
 uint8 MODULE_ADDR;
@@ -37,6 +36,7 @@ void System_Init(void);
 *				:
 *Returned		:
 *************************************************************************************/
+
 int main(int argc, char **argv, char **env, struct callvectors *cv)
 {
 	uint8 i;
@@ -47,6 +47,18 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 
 	while (1)
 	{
+/*
+		if(SYS_TIMER5_MARK==0xFF) 
+		{
+			SYS_TIMER5_MARK=0;
+			SYS_TIMER5=SYS_TIMER5_INIT;
+			//myprintf("Word = %d\n",status0[0].Word);
+			//myprintf("hcm_hst_value = %d\n",hcm_data[3].hcm_hst_value);
+			//myprintf("hcm_hst_c_value = %d\n",hcm_data[3].hcm_hst_c_value);
+			//myprintf("Value = %x\n",CPLD_Read(0*4+2));
+		}
+*/
+
 		//下发cpu传来的配置
 		if(cpld_write_flag==1)
 		{
@@ -64,14 +76,12 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 				if(config0[i].Bits.mode>=HCM_MODE_5) //双向模式,下一通道不能用
 					i+=2;
 				else i++;
-				delay_us(10);
-				
+				delay_us(10);	
 			}
-
 			CPLD_Write(Filter_reg,filter32value);
-			cpld_write_flag=0;
+			cpld_write_flag=0;	
+		}
 			
-		}	
 		//定时HCM处理
 		if(SYS_TIMER7_MARK==0xFF ) 
 		{
@@ -79,7 +89,7 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 			SYS_TIMER7=SYS_TIMER7_INIT;
 			if(( S_BITTST(&MODULE_STATE,7)==0xFF))
 				hcm_process();
-		}
+		}		
 		//10ms定时任务
 		if(TIMER_10MS_MARK==0xFF) 
 		{
