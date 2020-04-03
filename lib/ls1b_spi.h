@@ -73,6 +73,7 @@ void spi_print_all_regs_info(ls1b_spi_info_t *spi_info_p);
 
 inline int fls(int x);
 
+void spi_cs(unsigned char cs);
 
 #endif
 

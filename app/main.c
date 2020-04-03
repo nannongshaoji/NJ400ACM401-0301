@@ -68,7 +68,7 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 			CPLD_Write(Filter_reg,filter32value);
 			cpld_write_flag=0;	
 		}
-			
+/*			
 		//定时HCM处理
 		if(SYS_TIMER7_MARK==0xFF ) 
 		{
@@ -76,7 +76,8 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 			SYS_TIMER7=SYS_TIMER7_INIT;
 			if(( S_BITTST(&MODULE_STATE,7)==0xFF))
 				hcm_process();
-		}		
+		}	
+*/	
 		//10ms定时任务
 		if(TIMER_10MS_MARK==0xFF) 
 		{

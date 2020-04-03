@@ -104,17 +104,15 @@ void IRQ_Time_1(void)
 	 	}
     }
 
-/*	//定时HCM处理
+	/*定时HCM处理,注意此处hcm_process()若放在主循环中执行，需要与上述测频模式SPI读写互斥，否则测频模式定时中断可能会打断hcm_process()函数中的SPI读写时序*/
 	if(SYS_TIMER7_MARK==0xFF ) 
 	{
-		FAULT_LED_OFF;
 		SYS_TIMER7_MARK=0;
 		SYS_TIMER7=SYS_TIMER7_INIT;
 		if(( S_BITTST(&MODULE_STATE,7)==0xFF))
 			hcm_process();
-		FAULT_LED_ON;
 	}
-*/
+
 }
 /*************************************************************************************
 *Function name	:CLK_SOFT_INIT

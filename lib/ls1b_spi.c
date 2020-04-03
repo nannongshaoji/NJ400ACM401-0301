@@ -225,7 +225,7 @@ void spi_set_cs(ls1b_spi_info_t *spi_info_p, int new_status)
     unsigned char val = 0;
 
     val = reg_read_8(spi_base + LS1B_SPI_SFC_SOFTCS_OFFSET);
-
+    val &= 0xF0;                    // 关闭其他使能
     if (new_status)         		// cs = 1 拉高释放总线
     {
         val |= (0x01 << cs);        // 指定的csen=1
@@ -233,10 +233,31 @@ void spi_set_cs(ls1b_spi_info_t *spi_info_p, int new_status)
     }
     else                    		// cs = 0 
     {
-        val &= ~(0x10 << cs);       // 指定csn=0
-        val &= 0xF0;                // 关闭其他使能
+        val &= ~(0x10 << cs);       // 指定csn=0                 
         val |= (0x01 << cs);        // 指定csen=1
     }
+    reg_write_8(val, spi_base + LS1B_SPI_SFC_SOFTCS_OFFSET);
+    return ;
+}
+
+
+/**/
+void spi_cs(unsigned char cs)
+{
+    void *spi_base = spi_get_base(LS1B_SPI_0);
+    unsigned char val = 0;
+
+    val = reg_read_8(spi_base + LS1B_SPI_SFC_SOFTCS_OFFSET);
+
+    val &= 0xf0;
+    val |= (0x10 << cs);        // 指定csn=1 
+    val |= (0x01 << cs);        // 指定csen=1
+
+    //val |= (0x10 << cs);        // 指定csn=1 
+    //val |= (0x01 << cs);        // 指定csen=1
+    //delay_us(10);
+    //val &= ~(0x01 << cs);       // 指定csen=0
+
     reg_write_8(val, spi_base + LS1B_SPI_SFC_SOFTCS_OFFSET);
 
     return ;
