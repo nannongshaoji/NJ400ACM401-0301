@@ -43,7 +43,7 @@ void CPLD_Init(void)
     //SPI0 Initialize
     spi0_info.SPIx			= LS1B_SPI_0;
     spi0_info.cs			= LS1B_SPI_CS_2;
-    spi0_info.max_speed_hz	= 62500;
+    spi0_info.max_speed_hz	= 250000;
     spi0_info.cpol			= SPI_CPOL_1;
     spi0_info.cpha			= SPI_CPHA_1;
 

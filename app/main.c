@@ -36,7 +36,7 @@ void System_Init(void);
 *				:
 *Returned		:
 *************************************************************************************/
-
+extern s_hcm_data hcm_data[HCM_CH_NUM];
 int main(int argc, char **argv, char **env, struct callvectors *cv)
 {
 	uint8 i;
@@ -102,7 +102,7 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 		if( SYS_TIMER8_MARK==0xFF) 
 		{
 			SYS_TIMER8_MARK=0;
-			SYS_TIMER8=SYS_TIMER8_INIT;
+			SYS_TIMER8=SYS_TIMER8_INIT;	
 			CLEAR_HARDWDOG();		
 		}
 		//CAN_COM
