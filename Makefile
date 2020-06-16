@@ -3,9 +3,9 @@
 #
 
 # �������Ľ�����빤����
-CROSS_COMPILE 	=mipsel-linux-
+#CROSS_COMPILE 	=mipsel-linux-
 # windows�µĽ�����빤����
-#CROSS_COMPILE 	=mips-linux-gnu-
+CROSS_COMPILE 	=mips-linux-gnu-
 
 #
 # Include the make variables (CC, etc...)
@@ -48,7 +48,7 @@ all:$(DEST)
 $(DEST):$(ALL_SRC) $(ALL_HEADER_FILE)
 #	${CC} -g -O2 -Wall -fno-pic -N -o $(DEST) $(ALL_SRC) -static -nostartfiles -e main -Wl,-m -Wl,elf32ltsmip -T ld.script
 	${CC} -g -O2 -Wall -fno-pic -mno-abicalls  -N -o $(DEST) $(ALL_SRC) -static -nostartfiles -e main -Wl,-m -Wl,elf32ltsmip -T ld.script
-	cp $(DEST) /mnt/hgfs/ubuntuLTS16.04_x64/
+#	cp $(DEST) /mnt/hgfs/ubuntuLTS16.04_x64/
 clean:
 	rm -f $(DEST) *.o
 	

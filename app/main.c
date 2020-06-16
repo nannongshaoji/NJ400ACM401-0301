@@ -103,7 +103,8 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 		{
 			SYS_TIMER8_MARK=0;
 			SYS_TIMER8=SYS_TIMER8_INIT;	
-			CLEAR_HARDWDOG();		
+			CLEAR_HARDWDOG();	
+							
 		}
 		//CAN_COM
 		CAN_APP_RECV();
