@@ -101,7 +101,7 @@ void canConfig(volatile unsigned char* base)
 	*(base+REG_ACCM2) = 0x80;
 	*(base+REG_ACCM3) = 0xff;	
 	//bustimer_init(base);
-	*(base+REG_BTR0) = 0x03;
+	*(base+REG_BTR0) = 0x01;
 	*(base+REG_BTR1) = 0x1c;//2f
 	*(base+REG_IER) =  IRQ_ALL & ~IRQ_BEI;
 	*(base+REG_OCR) = 0x5a;	

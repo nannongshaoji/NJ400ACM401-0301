@@ -1,6 +1,6 @@
 /****************************************Copyright (c)**************************************************
-**                               Е█≈Е╓╖Е┌╡Ф▀⌠Г╖▒Ф┼─Ф╠÷Х▀▐Х┌║Д╩╫Ф°┴И≥░Е┘╛Е▐╦
-**                                        Г═■Е▐▒И┐╗
+**                               до╢С╟амь©ф╪╪╫╜ку╧и╥щспоч╧╚к╬
+**                                        яп╥╒╡©
 **                                         
 **                                 http://www.nandaauto.com
 **
@@ -67,7 +67,7 @@ void NA_Modnle_Init(void)
            myprintf("MODULE_ADDR ERROR\n");
         }
     }
-    MODULE_TYPE = NJ400HCM0801;
+    MODULE_TYPE = NJ400ACM0301;
     MODULE_STATE = 0x40;
     CLK_SOFT_INIT();
 }

@@ -1,6 +1,6 @@
 /****************************************Copyright (c)**************************************************
-**                               å—å¤§å‚²æ‹“ç§‘æŠ€æ±Ÿè‹è‚¡ä»½æœ‰é™å…¬å¸
-**                                        ç ”å‘éƒ¨
+**                               ÄÏ´ó°ÁÍØ¿Æ¼¼½­ËÕ¹É·İÓĞÏŞ¹«Ë¾
+**                                        ÑĞ·¢²¿
 **                                         
 **                                 http://www.nandaauto.com
 **
@@ -17,19 +17,19 @@
  * 
  * 
 ********************************************************************************************************/
-#define Version             "V1.0"
+#define  VERSION            "V1.0"
 
-typedef unsigned char  INT8U;                   /* æ— ç¬¦å·8ä½æ•´å‹å˜é‡                        */
-typedef signed   char  INT8S;                   /* æœ‰ç¬¦å·8ä½æ•´å‹å˜é‡                        */
-typedef unsigned short INT16U;                  /* æ— ç¬¦å·16ä½æ•´å‹å˜é‡                       */
-typedef signed   short INT16S;                  /* æœ‰ç¬¦å·16ä½æ•´å‹å˜é‡                       */
-typedef unsigned int   INT32U;                  /* æ— ç¬¦å·32ä½æ•´å‹å˜é‡                       */
-typedef signed   int   INT32S,int32;            /* æœ‰ç¬¦å·32ä½æ•´å‹å˜é‡                       */
-typedef float          FP32;                    /* å•ç²¾åº¦æµ®ç‚¹æ•°ï¼ˆ32ä½é•¿åº¦ï¼‰                 */
-typedef double         FP64;                    /* åŒç²¾åº¦æµ®ç‚¹æ•°ï¼ˆ64ä½é•¿åº¦ï¼‰                 */
-typedef unsigned char  uint8;                   /* æ— ç¬¦å·8ä½æ•´å‹å˜é‡                        */
-typedef unsigned short uint16;                  /* æ— ç¬¦å·16ä½æ•´å‹å˜é‡                       */
-typedef unsigned int   uint32;                  /* æ— ç¬¦å·32ä½æ•´å‹å˜é‡                       */
+typedef unsigned char  INT8U;                   /* ÎŞ·ûºÅ8Î»ÕûĞÍ±äÁ¿                        */
+typedef signed   char  INT8S;                   /* ÓĞ·ûºÅ8Î»ÕûĞÍ±äÁ¿                        */
+typedef unsigned short INT16U;                  /* ÎŞ·ûºÅ16Î»ÕûĞÍ±äÁ¿                       */
+typedef signed   short INT16S;                  /* ÓĞ·ûºÅ16Î»ÕûĞÍ±äÁ¿                       */
+typedef unsigned int   INT32U;                  /* ÎŞ·ûºÅ32Î»ÕûĞÍ±äÁ¿                       */
+typedef signed   int   INT32S,int32;            /* ÓĞ·ûºÅ32Î»ÕûĞÍ±äÁ¿                       */
+typedef float          FP32;                    /* µ¥¾«¶È¸¡µãÊı£¨32Î»³¤¶È£©                 */
+typedef double         FP64;                    /* Ë«¾«¶È¸¡µãÊı£¨64Î»³¤¶È£©                 */
+typedef unsigned char  uint8;                   /* ÎŞ·ûºÅ8Î»ÕûĞÍ±äÁ¿                        */
+typedef unsigned short uint16;                  /* ÎŞ·ûºÅ16Î»ÕûĞÍ±äÁ¿                       */
+typedef unsigned int   uint32;                  /* ÎŞ·ûºÅ32Î»ÕûĞÍ±äÁ¿                       */
 
 #define USE_CAN1
 /* #define USE_CAN2 */
@@ -42,11 +42,13 @@ typedef unsigned int   uint32;                  /* æ— ç¬¦å·32ä½æ•´å‹å˜é‡   
 #define NOP __asm__("nop")
 
 
-#define NJ400HCM0801      0xa2
+#define NJ400HCM0801      (0xa2)
+#define NJ400HCM0811      (0xa4)
+#define NJ400ACM0301	  (0xC9)
 //LED PIN
-#define RUN_LED_PIN       (5)//(23)//
-#define ACT_LED_PIN       (4)//(22)//
-#define FAULT_LED_PIN     (34)
+#define RUN_LED_PIN       (17)//(23)//
+#define ACT_LED_PIN       (15)//(22)//
+#define FAULT_LED_PIN     (13)
 #define RUN_LED_ON        gpio_set(RUN_LED_PIN,0);
 #define RUN_LED_OFF       gpio_set(RUN_LED_PIN,1);
 #define ACT_LED_ON        gpio_set(ACT_LED_PIN,0);

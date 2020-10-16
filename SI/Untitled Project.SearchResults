@@ -1,0 +1,15 @@
+---- ATT7022EU_K Matches (14 in 1 files) ----
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):#define  ATT7022EU_K  61.8882   //功率常数K值
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app)://#define  ATT7022EU_K  6.18882   //功率常数K值
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*10/ATT7022EU_K;        
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*10/ATT7022EU_K;        
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*10/ATT7022EU_K;        
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*10/ATT7022EU_K;        
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*10/ATT7022EU_K;  
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*10/ATT7022EU_K;   
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*2*10/ATT7022EU_K;        
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*2*10/ATT7022EU_K; 
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	f_value = ((float)IValue)*2*10/ATT7022EU_K;        
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):					f_value = ((float)IValue)/ATT7022EU_K;	
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):					f_value = ((float)IValue)/ATT7022EU_K;	
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):					f_value = ((float)IValue)/ATT7022EU_K;	

@@ -1,6 +1,6 @@
 /****************************************Copyright (c)**************************************************
-**                               南大傲拓科技江苏股份有限公司
-**                                        研发部
+**                               �ϴ���ؿƼ����չɷ����޹�˾
+**                                        �з���
 **                                         
 **                                 http://www.nandaauto.com
 **
@@ -9,8 +9,6 @@
 #include "../lib/ls1b_timer.h"
 #include "system_init.h"
 #include "timer.h"
-#include "CPLD.h"
-#include "com_cpu.h"
 
 timer_info_t timer_info={0};
 stcMODULE_CLK  MODULE_CLK;
@@ -77,40 +75,22 @@ void Init_Timer(void)
 *************************************************************************************/
 void IRQ_Time_1(void)
 {
-    uint8 i;
     MS10_CNT++;
 
     if (MS10_CNT>=100) 
     {
         RUN_LED_ON;
-        if(S_BITTST(&MODULE_STATE,7)==0xFF) SYS_TIMER6=SYS_TIMER6_INIT;
+        if(S_BITTST(&MODULE_STATE,7)==0xFF) 
+			SYS_TIMER6=SYS_TIMER6_INIT;
         MS10_CNT=0;
     }
     TIMER_10MS_MARK=0xFF;
-    /*测频模式为提高测量精度，需要在定时中断中读取CPLD*/
-    for(i=0;i<HCM_CH_NUM;i++) //测频模式的时候，中断中读取CPLD 20171226
-    {
-	 	if(config0[i].Bits.mode!=HCM_MODE_0)
-	 		continue;
-	 	if(status0[i].Bits.start_stop_bit==1)
-	 	{	
-	 		if(config0[i].Bits.mode==HCM_MODE_0)//测频模式,每10ms存储一次数据
-	 		{
-	 			measure_10hz_data[i][measure_10hz_index[i]]=CPLD_Read(i*4+2);
-	 			measure_10hz_index[i]++;
-	 			if(measure_10hz_index[i]>=MAX_NUM_HZ)
-	 				measure_10hz_index[i]=0;
-	 		}
-	 	}
-    }
-
-	/*定时HCM处理,注意此处hcm_process()若放在主循环中执行，需要与上述测频模式SPI读写互斥，否则测频模式定时中断可能会打断hcm_process()函数中的SPI读写时序*/
+ 
 	if(SYS_TIMER7_MARK==0xFF ) 
 	{
 		SYS_TIMER7_MARK=0;
 		SYS_TIMER7=SYS_TIMER7_INIT;
-		if(( S_BITTST(&MODULE_STATE,7)==0xFF))
-			hcm_process();
+
 	}
 
 }

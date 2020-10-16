@@ -3,9 +3,9 @@
 #
 
 # �������Ľ�����빤����
-#CROSS_COMPILE 	=mipsel-linux-
+CROSS_COMPILE 	=mipsel-linux-
 # windows�µĽ�����빤����
-CROSS_COMPILE 	=mips-linux-gnu-
+#CROSS_COMPILE 	=mips-linux-gnu-
 
 #
 # Include the make variables (CC, etc...)
@@ -41,7 +41,7 @@ ALL_HEADER_FILE = $(LIB_HEADER_FILE) $(EXAMPLE_HEADER_FILE) $(APP_HEADER_FILE)
 ALL_SRC = $(LIB_SRC) $(EXAMPLE_SRC) $(APP_SRC)
 
 # ���յ�Ŀ���ļ�
-DEST = NJ400HCM-0801-V1.0
+DEST = NJ400ACM-0301-V1.0
 
 all:$(DEST)
 

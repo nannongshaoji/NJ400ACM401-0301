@@ -1,6 +1,6 @@
 /****************************************Copyright (c)**************************************************
-**                               å—å¤§å‚²æ‹“ç§‘æŠ€æ±Ÿè‹è‚¡ä»½æœ‰é™å…¬å¸
-**                                        ç ”å‘éƒ¨
+**                               ÄÏ´ó°ÁÍØ¿Æ¼¼½­ËÕ¹É·ÝÓÐÏÞ¹«Ë¾
+**                                        ÑÐ·¢²¿
 **                                         
 **                                 http://www.nandaauto.com
 **
@@ -13,10 +13,9 @@
 #include "system_init.h"
 #include "string.h"
 #include "config.h"
-#include "com_cpu.h"
 #include "canapp.h"
 #include "candrv.h"
-
+#include "MY_define.h" 
 /*************************************************************************************
 *Function name	:NA_CAN_Init
 *Description	:CAN initialize
@@ -55,31 +54,25 @@ void NA_CAN_Init(void)
 *************************************************************************************/
 void PROCESS_MSG(void)
 {
-	uint8 I,OCCNO;
+	
 	if(APP_R[CAN_OUT_PTR].MYDATA[0]==MODULE_ADDR)
 	{
 		if(APP_R[CAN_OUT_PTR].MYDATA[1]==CODE_IOLOAD) //3+16
 		{
 			if(APP_R[CAN_OUT_PTR].MYDATA[2]!=MODULE_TYPE)
 			{	
-				MODULE_STATE|=0x04;//æ¨¡å—ç±»åž‹ä¸åŒ¹é…
-				MODULE_STATE&=0x7F;//æ¨¡å—å‚æ•°æœªåŠ è½½
+				MODULE_STATE|=0x04;//Ä£¿éÀàÐÍ²»Æ¥Åä
+				MODULE_STATE&=0x7F;//Ä£¿é²ÎÊýÎ´¼ÓÔØ
 				APP_S.MYDATA[4]=1;
 			}		
-			else if(APP_R[CAN_OUT_PTR].MYSIZE==99) //3+96
+			else if(APP_R[CAN_OUT_PTR].MYSIZE>=8) 
 			{		
-				for(I=0;I<HCM_CH_NUM;I++)
-				{
-					memcpy(&config0[I].Word,&APP_R[CAN_OUT_PTR].MYDATA[3+I*12],2);
-					memcpy(&hcm_data[I].hcm_s_value0,&APP_R[CAN_OUT_PTR].MYDATA[5+I*12],4);
-					memcpy(&hcm_data[I].hcm_s_value1,&APP_R[CAN_OUT_PTR].MYDATA[9+I*12],4);
-					memcpy(&hcm_data[I].hcm_s_value2,&APP_R[CAN_OUT_PTR].MYDATA[13+I*12],2);
-
-				}
-				MODULE_STATE|=0x80;//æ¨¡å—å‚æ•°å·²åŠ è½½
-				MODULE_STATE&=0xFB;//æ¨¡å—ç±»åž‹åŒ¹é…
+									
+		
+				MODULE_STATE|=0x80;//Ä£¿é²ÎÊýÒÑ¼ÓÔØ
+				MODULE_STATE&=0xFB;//Ä£¿éÀàÐÍÆ¥Åä
 				APP_S.MYDATA[4]=0;
-				cpld_write_flag=1; //åŠ è½½æˆåŠŸå†™cpld
+				cpld_write_flag=1; //¼ÓÔØ³É¹¦Ð´cpld
 			}	
 			else return;	
 			APP_S.NODE=APP_R[CAN_OUT_PTR].NODE;
@@ -95,115 +88,25 @@ void PROCESS_MSG(void)
 			APP_S.STATE=1;
 		}
 		/* poll */
-		if(APP_R[CAN_OUT_PTR].MYDATA[1]==CODE_IOPOLL && APP_R[CAN_OUT_PTR].MYSIZE==8)//CPUè¯»å–æ•°æ®		
+		if(APP_R[CAN_OUT_PTR].MYDATA[1]==CODE_IOPOLL && APP_R[CAN_OUT_PTR].MYSIZE==8)//CPU¶ÁÈ¡Êý¾Ý		
 		{	
 			if(	APP_S.MYDATA[1]!=CODE_SOE )
 			{
 				APP_S.NODE=APP_R[CAN_OUT_PTR].NODE;
-				APP_S.MYSIZE=3+HCM_CH_NUM*10;
+				APP_S.MYSIZE=3+32*2;
 				APP_S.MYDATA[0]=MODULE_ADDR;
 				APP_S.MYDATA[1]=CODE_AIVAL;
 				APP_S.MYDATA[2]=MODULE_STATE;
-				for(I=0;I<HCM_CH_NUM;I++)//ä¸Šä¼ HCMä¿¡æ¯
-				{
-				  	memcpy(&APP_S.MYDATA[3+I*10],&status0[I].Word,2);
-					memcpy(&APP_S.MYDATA[5+I*10],&hcm_data[I].hcm_hst_value,4);
-					memcpy(&APP_S.MYDATA[9+I*10],&hcm_data[I].hcm_hst_c_value,4);
-				}
+				memcpy(&APP_S.MYDATA[3],&(DL_Data.Data.ACurrent_Valid),32*2);
 				APP_S.STATE=1;
 			}
 		}
-		
-			/* å¼€å‡º*/
-		if(APP_R[CAN_OUT_PTR].MYDATA[1]==CODE_DOSET && APP_R[CAN_OUT_PTR].MYSIZE==4+APP_R[CAN_OUT_PTR].MYDATA[3]*3)			
-		{				
-			for(I=0;I<APP_R[CAN_OUT_PTR].MYDATA[3];I++)   
-			{		
-				OCCNO=APP_R[CAN_OUT_PTR].MYDATA[4+I*3]&0x7F;
-//				if( (APP_R[CAN_OUT_PTR].MYDATA[4+I*3]&0x80)==0x80)
-//				{
-//					DODATA |= 1<< (OCCNO-1);
-//				}
-//				else 
-//				{
-//					DODATA &= ~(1<< (OCCNO-1));
-//				}
-				//memcpy(&DO_PULSE[OCCNO-1],&(APP_R[CAN_OUT_PTR].MYDATA[5+I*3]),2);
-				
-			}	
-			APP_S.NODE=APP_R[CAN_OUT_PTR].NODE;
-			APP_S.MYSIZE=8;
-			APP_S.MYDATA[0]=MODULE_ADDR;
-			APP_S.MYDATA[1]=CODE_ACK;
-			APP_S.MYDATA[2]=MODULE_STATE;
-			APP_S.MYDATA[3]=CODE_DOSET;
-			APP_S.MYDATA[4]=0;
-			APP_S.MYDATA[5]=0;
-			APP_S.MYDATA[6]=0;
-			APP_S.MYDATA[7]=0;
-			APP_S.STATE=1;
-		}
-		/* æ¨¡å‡º */
-		if(APP_R[CAN_OUT_PTR].MYDATA[1]==CODE_AOSET && APP_R[CAN_OUT_PTR].MYSIZE==(4+APP_R[CAN_OUT_PTR].MYDATA[3]*6))
-		{
-			for( I=0;I< APP_R[CAN_OUT_PTR].MYDATA[3];I++)
-			{
-				OCCNO=APP_R[CAN_OUT_PTR].MYDATA[4+I*6];
-				if(( S_BITTST(&MODULE_STATE,7)==0xFF))
-				{
-					switch(APP_R[CAN_OUT_PTR].MYDATA[5+I*6])
-					{
-						case AOSET_CODE_RESET: //å¤ä½æŒ‡ä»¤
-							aoset_state_byte[OCCNO-1] |=STATE_RESET;
-							break;
-						case AOSET_CODE_START: //å¯åŠ¨æŒ‡ä»¤
-							aoset_state_byte[OCCNO-1] |=STATE_START;
-							break;
-						case AOSET_CODE_STOP: //åœæ­¢æŒ‡ä»¤
-							aoset_state_byte[OCCNO-1] |=STATE_STOP;
-							break;
-						case AOSET_CODE_TIME_CYCLE:
-//						case AOSET_CODE_MODE3_YUZHI:
-							aoset_state_byte[OCCNO-1] |=STATE_SET_S_VALUE;
-							memcpy(&hcm_data[OCCNO-1].hcm_s_value0,&APP_R[CAN_OUT_PTR].MYDATA[6+I*6],4);
-							break;
-						case AOSET_CODE_BIJIAO:
-							memcpy(&hcm_data[OCCNO-1].hcm_s_value1,&APP_R[CAN_OUT_PTR].MYDATA[6+I*6],4);
-							break;
-						case AOSET_CODE_ZHIHOU:
-							memcpy(&hcm_data[OCCNO-1].hcm_s_value2,&APP_R[CAN_OUT_PTR].MYDATA[6+I*6],4);
-							break;
-					}					
-					AO_FLAG |=(1<<(OCCNO-1));
-//					{
-//						AO_FLAG |=(1<<(OCCNO-1));
-//					 	AO_DATA_NOW[OCCNO-1].OUTPUT=AO_DATA_BUF[OCCNO-1].OUTPUT;
-//					 	AO_DATA_PRE[OCCNO-1].OUTPUT=AO_DATA_BUF[OCCNO-1].OUTPUT;
-//					 
-//					}
-				}
-			}
-			APP_S.NODE=APP_R[CAN_OUT_PTR].NODE;
-			APP_S.MYSIZE=8;
-			APP_S.MYDATA[0]=MODULE_ADDR;
-			APP_S.MYDATA[1]=CODE_ACK;
-			APP_S.MYDATA[2]=MODULE_STATE;
-			APP_S.MYDATA[3]=CODE_AOSET;
-			APP_S.MYDATA[4]=0;
-			APP_S.MYDATA[5]=0;
-			APP_S.MYDATA[6]=0;
-			APP_S.MYDATA[7]=0;
-			APP_S.STATE=1;
-			
-		}
-		//äº‹ä»¶çŠ¶æ€ä½å¤„ç†
+
+		//ÊÂ¼þ×´Ì¬Î»´¦Àí
 		if(APP_R[CAN_OUT_PTR].MYDATA[1]==CODE_ACK)
 		{
-			for(I=0;I<HCM_CH_NUM;I++)
-			{			
-				if(APP_R[CAN_OUT_PTR].MYDATA[2+I]&0x01)
-					status0[I].Bits.event_chan =0;
-			}
+		
+		
 		}
 	}	
 }
