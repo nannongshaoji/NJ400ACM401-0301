@@ -14,8 +14,8 @@ ls1b_spi_info_t spi0_info_ATT7022EU={0};
 #define  ATT7022EU_K  61.8882   //功率常数K值
 //#define  ATT7022EU_K  6.18882   //功率常数K值
 
-#define  U_REF 18   //220  较表单相电压参考值(V) 
-
+#define  U_REF  18   //220  较表单相电压参考值(V) 18*20
+#define  U_MUL 20 //倍数
 unsigned short DGT_Data_Ptr = 0;
 int IValue=0;
 
@@ -259,7 +259,7 @@ void print_power_data (void)
 	ATT7022EU_Write_Reg(0xc6,0xaa);
 
 #endif
-	
+	myprintf("***STATUS:0x%x*** \n",ATT7022EU_Read_Reg(0x2C));
 	myprintf("ACurrent_Valid:%d\n",DL_Data.Data.ACurrent_Valid);
 	myprintf("BCurrent_Valid:%d\n",DL_Data.Data.BCurrent_Valid);
 	myprintf("CCurrent_Valid:%d\n",DL_Data.Data.CCurrent_Valid);
@@ -281,7 +281,7 @@ void print_power_data (void)
 	myprintf("SumReactivePower:%d\n",DL_Data.Data.SumReactivePower);
 	myprintf("AngleA:%d\n",DL_Data.Data.AngleA);
 	myprintf("AngleB:%d\n",DL_Data.Data.AngleB);
-	myprintf("AngleC:%d\n\n\n",DL_Data.Data.AngleC);
+	myprintf("AngleC:%d\n",DL_Data.Data.AngleC);
 	myprintf("AngleUAB:%d\n",DL_Data.Data.AngleUAB);
 	myprintf("AngleUAC:%d\n",DL_Data.Data.AngleUAC);
 	myprintf("AngleUBC:%d\n\n\n",DL_Data.Data.AngleUBC);
@@ -323,13 +323,19 @@ void ATT7022EU_init(void)
 	ATT7022EU_Write_Reg(0xC9,0x5A);//打开校准参数写使能
 	ATT7022EU_Write_Reg(0xC3,0x00);//清校表数据
 	ATT7022EU_Write_Reg(0x01,0xb9fe);//使能打开电压采集
-	ATT7022EU_Write_Reg(0x03,0xf80c);//读后不清零
+	//ATT7022EU_Write_Reg(0x03,0xf80c);//读后不清零
+	ATT7022EU_Write_Reg(0x03,0xf00c);//读后不清零
 	ATT7022EU_Write_Reg(0x31,0x3437);
 	ATT7022EU_Write_Reg(0x02,0x0000);//电流/电压增益为1倍
 	ATT7022EU_Write_Reg(0x1e,59);
 	ATT7022EU_Write_Reg(0x37,0x00);
-	ATT7022EU_Write_Reg(0x1d,0x0160);
-	ATT7022EU_Write_Reg(0x36,0x30);
+//	ATT7022EU_Write_Reg(0x1d,0x0160);
+	ATT7022EU_Write_Reg(0x1d,0x010);
+	ATT7022EU_Write_Reg(0x1f,50);
+	ATT7022EU_Write_Reg(0x38,0);
+	ATT7022EU_Write_Reg(0x39,50);
+//	ATT7022EU_Write_Reg(0x36,0x30);
+	ATT7022EU_Write_Reg(0x36,0x03);
 	spi_DL_Check();
 }
 
@@ -415,17 +421,17 @@ void ATT7022EU_Thread(void)
 			if((DL_Data.Data.AVoltage_Valid>0)&&(DL_Data.Data.BVoltage_Valid>0)&&(DL_Data.Data.CVoltage_Valid>0))
 			{
 				f_value=((float)DL_Data.Data.AVoltage_Valid)/100;
-				Ugain=U_REF/f_value-1;
+				Ugain=U_REF*U_MUL/f_value-1;
 				if(Ugain>=0) Ugain=Ugain*32768;
 				else Ugain=Ugain*32768+65536; 	
 				RTU_Config.Config.AVoltage_Check=Ugain;
 				f_value=((float)DL_Data.Data.BVoltage_Valid)/100;
-				Ugain=U_REF/f_value-1;
+				Ugain=U_REF*U_MUL/f_value-1;
 				if(Ugain>=0) Ugain=Ugain*32768;
 				else Ugain=Ugain*32768+65536; 	
 				RTU_Config.Config.BVoltage_Check=Ugain;
 				f_value=((float)DL_Data.Data.CVoltage_Valid)/100;
-				Ugain=U_REF/f_value-1;
+				Ugain=U_REF*U_MUL/f_value-1;
 				if(Ugain>=0) Ugain=Ugain*32768;
 				else Ugain=Ugain*32768+65536; 	
 				RTU_Config.Config.CVoltage_Check=Ugain;

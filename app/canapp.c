@@ -97,7 +97,13 @@ void PROCESS_MSG(void)
 				APP_S.MYDATA[0]=MODULE_ADDR;
 				APP_S.MYDATA[1]=CODE_AIVAL;
 				APP_S.MYDATA[2]=MODULE_STATE;
+				DL_Data.Data.AVoltage_Valid/=20;
+				DL_Data.Data.BVoltage_Valid/=20;
+				DL_Data.Data.CVoltage_Valid/=20;
 				memcpy(&APP_S.MYDATA[3],&(DL_Data.Data.ACurrent_Valid),32*2);
+				DL_Data.Data.AVoltage_Valid*=20;
+				DL_Data.Data.BVoltage_Valid*=20;
+				DL_Data.Data.CVoltage_Valid*=20;
 				APP_S.STATE=1;
 			}
 		}
