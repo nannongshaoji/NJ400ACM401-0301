@@ -1,9 +1,31 @@
----- AVoltage_Valid Matches (9 in 3 files) ----
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	DL_Data.Data.AVoltage_Valid=IValue*100/8/1024;	
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	myprintf("AVoltage_Valid:%d\n",DL_Data.Data.AVoltage_Valid);
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):			if((DL_Data.Data.AVoltage_Valid>0)&&(DL_Data.Data.BVoltage_Valid>0)&&(DL_Data.Data.CVoltage_Valid>0))
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				f_value=((float)DL_Data.Data.AVoltage_Valid)/100;
+---- 20 Matches (31 in 11 files) ----
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):#define  U_REF  18   //220  较表单相电压参考值(V) 18*20
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):#define  U_MUL 20 //倍数
 Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.AVoltage_Valid/=20;
+Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.BVoltage_Valid/=20;
+Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.CVoltage_Valid/=20;
 Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.AVoltage_Valid*=20;
-MY_define.h (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	WORD	AVoltage_Valid;		//只读，A相电压有效值0.1V
-MY_define.h (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	WORD	AVoltage_Valid;		//只读，A相电压有效值0.01V
+Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.BVoltage_Valid*=20;
+Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.CVoltage_Valid*=20;
+Config.h (e:\ubuntushared\1604share\400\nj400acm401-0301\app):#define CS_READ_CANADDR_PIN   (20)
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	*(base+20) = 0xff;
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	//*(base+20) = 0x56;
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	*(base+20) = 0x04;
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	for(i=20;i!=0;i--){
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	*(base+20) = (unsigned char) ( TxMessage->ExtId&0x000000FF);
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	myprintf("===desc addr: %x val: %02x\n",base+20,*(base+20));	
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	RxMessage->ExtId=(*(base+17)<<24)|(*(base+18)<<16)|(*(base+19)<<8)|(*(base+20));
+Ls1b_clock.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):        cpu_rate = pll_rate / ((ctrl & (0x0f<<20)) >> 20);
+Ls1b_delay.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):    else if(n < 20)     count_max = 69 * n;//10us
+Ls1b_irq.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define LS1B_PWM3_IRQ	20
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib): * Bits 18 - 20 of the FPU Status Register will be read as 0,
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define R4K_CONF_SW			(_ULCAST_(1) << 20)
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define R5K_CONF_SS			(_ULCAST_(3) << 20)
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define RM7K_CONF_SI		(_ULCAST_(3) << 20)
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define VR41_CONF_M16		(_ULCAST_(1) << 20)
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define MIPS_CONF2_TL		(_ULCAST_(15)<< 20)
+Ls1b_mipsregs.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define MIPS_FPIR_W			(_ULCAST_(1) << 20)
+Ls1b_stackframe.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define PT_R20		((PT_R19) + LONGSIZE)	/* 20 */
+Main.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):unsigned short ABCCurrent[20]={0};   //ABC三相电流和数组
+Main.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	RTU_Config.Config.CurrentRatio=1;//20
+Sja1000.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define SJA1000_MAX_IRQ 		20	/* max. number of interrupts handled in ISR */
