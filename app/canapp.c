@@ -100,13 +100,13 @@ void PROCESS_MSG(void)
 				DL_Data.Data.AVoltage_Valid/=20;
 				DL_Data.Data.BVoltage_Valid/=20;
 				DL_Data.Data.CVoltage_Valid/=20;
-				if((DL_Data.Data.AVoltage_Valid<100)&&(DL_Data.DataBVoltage_Valid<100)&&(DL_Data.Data.CVoltage_Valid<100))
+				if((DL_Data.Data.AVoltage_Valid<100)&&(DL_Data.Data.BVoltage_Valid<100)&&(DL_Data.Data.CVoltage_Valid<100))
 				{
 					DL_Data.Data.PowerNetFreq=0;
 					DL_Data.Data.AngleA =0  ; 
 					DL_Data.Data.AngleB =0 ;
 					DL_Data.Data.AngleC=0   ; 
-					DL_Data.Data.AngleUABC=0   ;
+					DL_Data.Data.AngleUAB=0   ;
 					DL_Data.Data.AngleUAC=0   ; 
 					DL_Data.Data.AngleUBC=0   ; 
 				}
