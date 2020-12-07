@@ -17,8 +17,8 @@
 #define SPI0_MISO_Pin    	(25)
 #define SPI0_MOSI_Pin    	(26)
 #define SPI0_CS2_Pin      	(29)
-#define SPI0_CS2_L        	{spi_set_cs(&spi0_info_ATT7022EU,0); delay_us(100);}
-#define SPI0_CS2_H        	{delay_us(100); spi_set_cs(&spi0_info_ATT7022EU,1);}
+#define SPI0_CS2_L        	{spi_set_cs(&spi0_info_ATT7022EU,0); delay_us(10);}
+#define SPI0_CS2_H        	{delay_us(10); spi_set_cs(&spi0_info_ATT7022EU,1);}
 extern void SPI1_Init(void);
 extern unsigned int ATT7022EU_Read_Reg(unsigned char RegAddr);
 extern void ATT7022EU_Write_Reg(unsigned char RegAddr,unsigned int Value);

@@ -104,7 +104,7 @@ int main(int argc, char **argv, char **env, struct callvectors *cv)
 			CLEAR_HARDWDOG();
 			fxms_flag=1;
 			DL_Save_Data();
-			print_power_data();
+		//	print_power_data();
 							
 		}
 		//CAN_COM

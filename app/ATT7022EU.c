@@ -99,11 +99,11 @@ unsigned int ATT7022EU_Read_Reg(unsigned char RegAddr)
 	unsigned int Value=0;
 	unsigned char ret=0;
 	ATT7022EU_SPI_MODE_Init0();
-	delay_us(10);
+	delay_us(5);
 	SPI0_CS2_L;
-	delay_us(10);
+	delay_us(5);
 	ret=spi_txrx_byte(&spi0_info_ATT7022EU,0x00+RegAddr);
-	delay_us(10);	
+	delay_us(5);	
 	ret=spi_txrx_byte(&spi0_info_ATT7022EU,0xFF);
 	Value=ret;
 	ret=spi_txrx_byte(&spi0_info_ATT7022EU,0xFF);
