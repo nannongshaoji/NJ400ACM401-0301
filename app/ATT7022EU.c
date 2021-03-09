@@ -16,6 +16,8 @@ ls1b_spi_info_t spi0_info_ATT7022EU={0};
 
 #define  U_REF  18   //220  较表单相电压参考值(V) 18*20
 #define  U_MUL 20 //倍数
+#define  P_MUL 10 //倍数
+#define  I_MUL 10 //倍数
 unsigned short DGT_Data_Ptr = 0;
 int IValue=0;
 
@@ -448,17 +450,17 @@ void ATT7022EU_Thread(void)
 				if((DL_Data.Data.ACurrent_Valid>0)&&(DL_Data.Data.BCurrent_Valid>0)&&(DL_Data.Data.CCurrent_Valid>0)&&(DL_Config.Config.CurrentRatio>0))
 				{
 					f_value=((float)DL_Data.Data.ACurrent_Valid)/100/DL_Config.Config.CurrentRatio;
-					Ugain=1/f_value-1;
+					Ugain=1*I_MUL/f_value-1;
 					if(Ugain>=0) Ugain=Ugain*32768;
 					else Ugain=Ugain*32768+65536; 						
 					RTU_Config.Config.ACurrent_Check=Ugain;
 					f_value=((float)DL_Data.Data.BCurrent_Valid)/100/DL_Config.Config.CurrentRatio;
-					Ugain=1/f_value-1;
+					Ugain=1*I_MUL/f_value-1;
 					if(Ugain>=0) Ugain=Ugain*32768;
 					else Ugain=Ugain*32768+65536;  	
 					RTU_Config.Config.BCurrent_Check=Ugain;
 					f_value=((float)DL_Data.Data.CCurrent_Valid)/100/DL_Config.Config.CurrentRatio;
-					Ugain=1/f_value-1;
+					Ugain=1*I_MUL/f_value-1;
 					if(Ugain>=0) Ugain=Ugain*32768;
 					else Ugain=Ugain*32768+65536;  
 					RTU_Config.Config.CCurrent_Check=Ugain;
@@ -466,7 +468,7 @@ void ATT7022EU_Thread(void)
 					IValue=ATT7022EU_Read_Reg(0x01);
 					if(IValue > 8388608) IValue = IValue - 16777216;
 					f_value = ((float)IValue)/ATT7022EU_K;	
-					f_value=(f_value-U_REF)/U_REF;
+					f_value=(f_value-U_REF*P_MUL)/(U_REF*P_MUL);
 					Ugain=(0-f_value)/(1+f_value);
 					if(Ugain>=0) Ugain=Ugain*32768;
 					else Ugain=Ugain*32768+65536; 
@@ -475,7 +477,7 @@ void ATT7022EU_Thread(void)
 					IValue=ATT7022EU_Read_Reg(0x02);
 					if(IValue > 8388608) IValue = IValue - 16777216;
 					f_value = ((float)IValue)/ATT7022EU_K;	
-					f_value=(f_value-U_REF)/U_REF;
+					f_value=(f_value-U_REF*P_MUL)/(U_REF*P_MUL);
 					Ugain=(0-f_value)/(1+f_value);
 					if(Ugain>=0) Ugain=Ugain*32768;
 					else Ugain=Ugain*32768+65536; 
@@ -484,7 +486,7 @@ void ATT7022EU_Thread(void)
 					IValue=ATT7022EU_Read_Reg(0x03);
 					if(IValue > 8388608) IValue = IValue - 16777216;
 					f_value = ((float)IValue)/ATT7022EU_K;	
-					f_value=(f_value-U_REF)/U_REF;
+					f_value=(f_value-U_REF*P_MUL)/(U_REF*P_MUL);
 					Ugain=(0-f_value)/(1+f_value);
 					if(Ugain>=0) Ugain=Ugain*32768;
 					else Ugain=Ugain*32768+65536; 

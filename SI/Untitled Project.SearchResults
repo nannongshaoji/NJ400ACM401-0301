@@ -1,10 +1,22 @@
----- AVoltage_Valid Matches (10 in 3 files) ----
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	DL_Data.Data.AVoltage_Valid=IValue*100/8/1024;	
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	myprintf("AVoltage_Valid:%d\n",DL_Data.Data.AVoltage_Valid);
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):			if((DL_Data.Data.AVoltage_Valid>0)&&(DL_Data.Data.BVoltage_Valid>0)&&(DL_Data.Data.CVoltage_Valid>0))
-ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				f_value=((float)DL_Data.Data.AVoltage_Valid)/100;
-Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.AVoltage_Valid/=20;
-Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				if((DL_Data.Data.AVoltage_Valid<100)&&(DL_Data.Data.BVoltage_Valid<100)&&(DL_Data.Data.CVoltage_Valid<100))
-Canapp.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):				DL_Data.Data.AVoltage_Valid*=20;
-MY_define.h (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	WORD	AVoltage_Valid;		//只读，A相电压有效值0.1V
-MY_define.h (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	WORD	AVoltage_Valid;		//只读，A相电压有效值0.01V
+---- 0x02 Matches (21 in 9 files) ----
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	IValue=ATT7022EU_Read_Reg(0x02);
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	ATT7022EU_Write_Reg(0x02,0x0000);//电流/电压增益为1倍
+ATT7022EU.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):					IValue=ATT7022EU_Read_Reg(0x02);
+Candrv.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	FRAG_TYPE = ((CAN_R[CAN_ISR_PTR_R].dID1>>6) & 0x02) | ((CAN_R[CAN_ISR_PTR_R].dID2>>7));
+Candrv.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):		FRAG_TYPE = (((CAN_R[CAN_ISR_PTR_P].dID1>>6) & 0x02) | (CAN_R[CAN_ISR_PTR_P].dID2>>7));
+Candrv.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	if(SEND_INDEX>=CAN_BUF_CNTS)  return 0x02;
+Candrv.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):					CAN_STATE.STATE|=0x02;
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	*(base+18) = 0x02;
+Ls1b_can.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):	*(base+22) = (0x02+j);
+Ls1b_i2c.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define BLS1_I2C_STATUS_TIP                 (0x02)  // 指示传输的过程。1，正在传输；0，传输完成
+Ls1b_uart.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):    lcr_value=0x02;
+Ls1b_uart.c (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):		MODULE_STATE |=	0x02;//模块自检故障
+MR25H256.h (e:\ubuntushared\1604share\400\nj400acm401-0301\app):#define WRITE   0x02
+MY_define.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):    0x00,0xC0,0xC1,0x01,0xC3,0x03,0x02,0xC2,0xC6,0x06,
+Sja1000.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define REG_SR		0x02
+Sja1000.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define MOD_LOM		0x02
+Sja1000.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define CMD_AT		0x02
+Sja1000.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define IRQ_TI		0x02
+Sja1000.h (e:\ubuntushared\1604share\400\nj400acm401-0301\lib):#define SR_DOS		0x02
+System_init.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	uint8 BIT_MAP[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+System_init.c (e:\ubuntushared\1604share\400\nj400acm401-0301\app):	uint32 BIT_MAP[8]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
